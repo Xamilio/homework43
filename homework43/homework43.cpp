@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 using namespace std;
 
@@ -93,29 +93,57 @@ public:
 		mas[newsize] = 0;
 		return MyString(mas);
 	}
+	void Plus(int delta)
+	{
+		if (delta < 0) return Minus(-delta);
+		char mas[1000];
+		for (int i = 0; i < size; i++)
+			mas[i] = str[i];
+		for (int i = 0; i < delta; i++)
+			mas[size + i] = 'x';
+		mas[size + delta] = 0;
+		SetStr(mas);
+	}
+	void Minus(int delta)
+	{
+		if (delta < 0) return Plus(-delta);
+		char mas[1000];
+		int newsize = size - delta;
+		if (newsize < 0) newsize = 0;
+		for (int i = 0; i < newsize; i++)
+			mas[i] = str[i];
+		mas[newsize] = 0;
+		SetStr(mas);
+	}
+
 	MyString operator ++()
 	{
-		return *this + 1;
+		Plus(1);
+		return MyString(*this);
 	}
+
 	MyString operator --()
 	{
-		return *this - 1;
+		Minus(1);
+		return MyString(*this);
 	}
 };
 
 int MyString::count = 0;
 
 int main()
-{ 
+{
 	MyString str1;
 	str1.Read("Введите 1 строку");
 	str1.Print();
-	MyString str2 = str1 + (- 3);
+	MyString str2 = str1 + (-3);
 	str2.Print();
-	MyString str3 = str1 -  (- 4);
+	MyString str3 = str1 - (-4);
 	str3.Print();
-	MyString str4 = ++str1;
+	MyString str4 = ++str3;
+	str3.Print();
 	str4.Print();
-	MyString str5 = --str1;
+	MyString str5 = --str4;
+	str4.Print();
 	str5.Print();
 }
